@@ -1,0 +1,13 @@
+# Portainer tutorial mode: keep the container running so users can open Console.
+# Set CALCULATOR_IMAGE in Portainer's stack environment variables.
+services:
+  calculator:
+    image: ${CALCULATOR_IMAGE:?Set CALCULATOR_IMAGE to ghcr.io/OWNER/REPO:latest}
+    command: ["sleep", "infinity"]
+    restart: unless-stopped
+    init: true
+    volumes:
+      - results:/results
+
+volumes:
+  results:

@@ -1,0 +1,21 @@
+# An unattended one-shot job: run once, write results, then exit.
+# Deploy as a separate stack in Portainer, e.g. yourname-calc-batch.
+services:
+  calculator:
+    image: ${CALCULATOR_IMAGE:?Set CALCULATOR_IMAGE to ghcr.io/OWNER/REPO:latest}
+    command:
+      - python
+      - -u
+      - /app/calculator.py
+      - "${CALC_OPERATION:-multiply}"
+      - "${CALC_A:-12}"
+      - "${CALC_B:-8}"
+      - --output
+      - "/results/${RUN_ID:-batch-001}.json"
+    restart: "no"
+    init: true
+    volumes:
+      - results:/results
+
+volumes:
+  results:
